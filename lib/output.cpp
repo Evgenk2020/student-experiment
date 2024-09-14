@@ -114,7 +114,7 @@ void screen_info::see_info(variant *stat, float _all)
 
 void file_info::see_info(variant *var, float _all)
 {
-    std::ofstream writer("one-rstat.csv", std::ios::app);
+    std::ofstream writer("disp-stat.csv", std::ios::app);
     const char coma = ',';
     const char quo = '\"';
 
@@ -173,7 +173,7 @@ void file_info::see_info(variant *var, float _all)
         writer << std::endl;
     }
 
-    std::cout << "Дані додані у файл one-rstat.csv" << std::endl;
+    std::cout << "Дані додані у файл disp-stat.csv" << std::endl;
 }
 
 //--------------------------------------------------
