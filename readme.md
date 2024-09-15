@@ -6,10 +6,7 @@ Run it with specified keys
 
 ```
 
-st-exp [-d | -df] [data one] [data two] ... [final data]
-st-exp [-d | -df] [data one] [data two] ... [final data] alf [0..1]
-st-exp [-d | -df] [series one ([data one] [data two])] -- [series two] -- ... [final series]
-st-exp [-d | -df] [series one ([data one] [data two])] -- [series two] -- ... [final series] alf [0..1]
+st-exp -d | -df [data...] [alf <0..1>]
 
 ```
 
