@@ -1,8 +1,6 @@
 #include "../include/proc.h"
 #include <iostream>
 
-void st_cout(std::vector<float> mean);
-
 int main(int argc, char *argv[])
 {
 	inp_var _inp_var;
