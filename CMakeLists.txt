@@ -14,7 +14,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/static)
 set(WLIB_STAT include/stat.h lib/stat.cpp)
 set(WLIB_OUTPUT include/output.h lib/output.cpp)
 set(WLIB_PORC include/proc.h lib/proc.cpp)
-set (WLIB_LOCAL_DATA include/localdada.h lib/localdada.cpp)
+set (WLIB_LOCAL_DATA include/localdata.h lib/localdata.cpp)
 
 #set main
 set(SRC src/main.cpp)

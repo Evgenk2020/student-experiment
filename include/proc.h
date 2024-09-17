@@ -4,7 +4,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include "../include/localdada.h"
+#include "../include/localdata.h"
 
 typedef std::map<int, std::string> inp_var;
 

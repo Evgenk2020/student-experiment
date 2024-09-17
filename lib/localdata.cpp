@@ -1,4 +1,4 @@
-#include "../include/localdada.h"
+#include "../include/localdata.h"
 
 float local_data_struct::mid_aver()
 {

@@ -1,7 +1,7 @@
 #ifndef STAT_H
 #define STAT_H
 
-#include "../include/localdada.h"
+#include "../include/localdata.h"
 
 struct variant
 {
