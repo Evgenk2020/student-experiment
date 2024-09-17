@@ -87,16 +87,10 @@ void decree::converting()
         }
     }
 
-    std::vector<float> local_data;
+    local_data_struct _temp_datas;
     for (auto a = start; a != finish; a++)
     {
-        if (lines_check_finish(finish))
-        {
-            std::cout << "data error..." << std::endl;
-            exit(1);
-        }
-
-        if (lines_check_start(start))
+        if (lines_check_finish(finish) || lines_check_start(start))
         {
             std::cout << "data error..." << std::endl;
             exit(1);
@@ -104,15 +98,15 @@ void decree::converting()
 
         if (a->second == ln)
         {
-            data.push_back(local_data);
-            local_data.clear();
+            _dyn_array.push_back(_temp_datas);
+            _temp_datas._l_data.clear();
         }
 
         else
         {
             try
             {
-                local_data.push_back(stof(a->second));
+                _temp_datas._l_data.push_back(stof(a->second));
             }
 
             catch (const std::exception &e)
@@ -123,8 +117,8 @@ void decree::converting()
         }
     }
 
-    data.push_back(local_data);
-    local_data.clear();
+    _dyn_array.push_back(_temp_datas);
+    _temp_datas._l_data.clear();
 }
 
 void decree::counting()
@@ -132,13 +126,13 @@ void decree::counting()
     if (_inp_var.at(1) == _keys.k_data)
     {
         print_info inf(new screen_info);
-        inf._print(data, alfa_mean);
+        inf._print(_dyn_array, alfa_mean);
     }
 
     else if (_inp_var.at(1) == _keys.k_file)
     {
         print_info inf(new file_info);
-        inf._print(data, alfa_mean);
+        inf._print(_dyn_array, alfa_mean);
     }
 
     else

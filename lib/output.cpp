@@ -59,7 +59,7 @@ void screen_info::see_info(variant *stat, float _all)
     stat->alf(_all);
     stat->spot();
 
-    if (stat->average_lines.size() == 1)
+    if (stat->input_data.size() == 1)
     {
         std::cout << "Послідовність: ";
         for (auto data : stat->data)
@@ -77,7 +77,7 @@ void screen_info::see_info(variant *stat, float _all)
             std::cout << "Послідовність варіанту " << counter << ": ";
             counter++;
 
-            for (auto numbers : vars)
+            for (auto numbers : vars._l_data)
             {
                 std::cout << numbers << ' ';
             }
@@ -88,7 +88,7 @@ void screen_info::see_info(variant *stat, float _all)
     std::cout << "Альфа: " << stat->alpha << std::endl;
     std::cout << "Довірчий інтервал: " << stat->confidence_interval << std::endl;
 
-    if (stat->average_lines.size() == 1)
+    if (stat->input_data.size() == 1)
     {
         std::cout << "Середнє: " << stat->average << ' '
                   << "[нижня межа: " << (stat->average - stat->confidence_interval) << ' '
@@ -101,11 +101,11 @@ void screen_info::see_info(variant *stat, float _all)
         std::string lines = "========================================================================================";
 
         std::cout << lines << std::endl;
-        for (int i = 0; i < stat->average_lines.size(); i++)
+        for (int i = 0; i < stat->input_data.size(); i++)
         {
-            std::cout << "Середнє по варіанту " << (i + 1) << ": " << stat->average_lines.at(i)
-                      << ' ' << "[нижня межа: " << (stat->average_lines.at(i) - stat->confidence_interval)
-                      << ' ' << "верхня межа: " << (stat->average_lines.at(i) + stat->confidence_interval) << ']'
+            std::cout << "Середнє по варіанту " << (i + 1) << ": " << stat->input_data.at(i).mid_aver()
+                      << ' ' << "[нижня межа: " << (stat->input_data.at(i).mid_aver() - stat->confidence_interval)
+                      << ' ' << "верхня межа: " << (stat->input_data.at(i).mid_aver() + stat->confidence_interval) << ']'
                       << std::endl;
         }
         std::cout << lines << std::endl;
@@ -124,7 +124,7 @@ void file_info::see_info(variant *var, float _all)
     var->alf(_all);
     var->spot();
 
-    if (var->average_lines.size() == 1)
+    if (var->input_data.size() == 1)
     {
         writer << quo << "Послідовність:" << quo << coma;
         for (auto data : var->data)
@@ -142,7 +142,7 @@ void file_info::see_info(variant *var, float _all)
             writer << quo << "Послідовність варіанту " << counter << quo << coma;
             counter++;
 
-            for (auto numbers : vars)
+            for (auto numbers : vars._l_data)
             {
                 writer << quo << numbers << quo << coma;
             }
@@ -153,22 +153,23 @@ void file_info::see_info(variant *var, float _all)
     writer << quo << "Альфа:" << quo << coma << quo << var->alpha << quo << std::endl;
     writer << quo << "Довірчий інтервал:" << quo << coma << quo << var->confidence_interval << quo << std::endl;
 
-    if (var->average_lines.size() == 1)
+    if (var->input_data.size() == 1)
     {
         writer << quo << "Середнє:" << quo << coma << quo << var->average << quo << coma
                << quo << "нижня межа:" << quo << coma << quo << (var->average - var->confidence_interval) << quo << coma
                << quo << "верхня межа:" << quo << coma << quo << (var->average + var->confidence_interval) << quo << coma
-               << std::endl << std::endl;
+               << std::endl
+               << std::endl;
     }
 
     else
     {
-        for (int i = 0; i < var->average_lines.size(); i++)
+        for (int i = 0; i < var->input_data.size(); i++)
         {
-            writer << quo << "Середнє по варіанту " << (i + 1) << ":" << quo << coma << quo << var->average_lines.at(i) << quo << coma
-                      << quo << "нижня межа:" << quo << coma << quo << (var->average_lines.at(i) - var->confidence_interval) << quo << coma
-                      << quo << "верхня межа:" << quo << coma << quo << (var->average_lines.at(i) + var->confidence_interval) << quo << coma
-                      << std::endl;
+            writer << quo << "Середнє по варіанту " << (i + 1) << ":" << quo << coma << quo << var->input_data.at(i).mid_aver() << quo << coma
+                   << quo << "нижня межа:" << quo << coma << quo << (var->input_data.at(i).mid_aver() - var->confidence_interval) << quo << coma
+                   << quo << "верхня межа:" << quo << coma << quo << (var->input_data.at(i).mid_aver() + var->confidence_interval) << quo << coma
+                   << std::endl;
         }
         writer << std::endl;
     }

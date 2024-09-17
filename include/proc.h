@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include "../include/localdada.h"
 
 typedef std::map<int, std::string> inp_var;
 
@@ -35,7 +36,7 @@ public:
 class decree : public processing
 {
 private:
-    std::vector<std::vector<float>> data;
+    local_data_dyn_array _dyn_array;
     float alfa_mean = -1;
 
 public:
