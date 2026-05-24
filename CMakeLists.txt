@@ -1,0 +1,59 @@
+cmake_minimum_required(VERSION 3.31)
+project(stexp VERSION 1.0.4 LANGUAGES CXX)
+
+set(assemble_tgz OFF)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_BUILD_TYPE Debug)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+find_package(Boost REQUIRED)
+
+add_library(stexp_wlib_stat SHARED ${CMAKE_SOURCE_DIR}/lib/stat.cpp)
+target_include_directories(stexp_wlib_stat PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(stexp_wlib_stat PRIVATE Boost::headers)
+
+add_library(stexp_wlib_output SHARED ${CMAKE_SOURCE_DIR}/lib/output.cpp)
+target_include_directories(stexp_wlib_output PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
+add_library(stexp_wlib_proc SHARED ${CMAKE_SOURCE_DIR}/lib/proc.cpp)
+target_include_directories(stexp_wlib_proc PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
+add_library(stexp_wlib_local_data SHARED ${CMAKE_SOURCE_DIR}/lib/localdata.cpp)
+target_include_directories(stexp_wlib_local_data PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
+add_executable(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/src/main.cpp)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(${PROJECT_NAME} PRIVATE stexp_wlib_stat stexp_wlib_output stexp_wlib_proc stexp_wlib_local_data Boost::headers)
+
+# file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/sources/" DESTINATION "${CMAKE_BINARY_DIR}")
+
+# -------------------------------------------------------------
+# packaging
+# -------------------------------------------------------------
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Statistical treatment of variance for Linux terminal")
+
+if(assemble_tgz)
+    install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+    install(TARGETS stexp_wlib_stat stexp_wlib_output stexp_wlib_proc stexp_wlib_local_data LIBRARY DESTINATION lib)
+    install(FILES ${CMAKE_SOURCE_DIR}/sources/stexp DESTINATION "." PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+    set(CPACK_GENERATOR "TGZ")
+else()
+    include(GNUInstallDirs)
+    install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    install(TARGETS stexp_wlib_stat stexp_wlib_output stexp_wlib_proc stexp_wlib_local_data LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+    set(CPACK_GENERATOR "RPM")
+    set(CPACK_RPM_PACKAGE_RELOCATABLE "TRUE")
+endif()
+
+include(CPack)
