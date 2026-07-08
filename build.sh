@@ -1,22 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-curr=$(dirname $(realpath $0))
+set -e
 
-bld_target=$curr/build
+curr="$(cd "$(dirname "$0")" && pwd)"
+bld_target="$curr/build"
 
-#rm -rd $bld_target
-
-if [ -d $bld_target ]
-then
-  cd $bld_target
-else
-  mkdir $bld_target
-  cd $bld_target
-fi
+mkdir -p "$bld_target"
+cd "$bld_target"
 
 cmake ..
-make clean
-make
+cmake --build . --parallel
 cpack
-
-exec $SHELL
